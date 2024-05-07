@@ -21,7 +21,7 @@ func (p *Parser) OnEvent(parserChannel <-chan Event) {
 			{
 				evt := evt.(ReadEvent)
 				log.Println(evt)
-				models := ReadAll(evt.FileName(), evt.DataModel())
+				models := ReadAll(evt.FileName())
 				evt.ResponseChannel() <- models
 			}
 			//case ReadCSVEvent:

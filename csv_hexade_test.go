@@ -1,6 +1,7 @@
 package csv
 
 import (
+	"fmt"
 	"log"
 	"reflect"
 	"testing"
@@ -24,7 +25,10 @@ func readAll(t *testing.T) {
 	response := <-evt.ResponseChannel()
 
 	log.Println(reflect.TypeOf(response))
-	log.Println(response)
+	for _, row := range response {
+		fmt.Println(row)
+	}
+	//log.Println(response)
 }
 
 type TestModel struct {

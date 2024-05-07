@@ -6,12 +6,12 @@ type ReadEvent interface {
 	Event
 	FileName() string
 	DataModel() any
-	ResponseChannel() chan any
+	ResponseChannel() chan [][]string
 }
 type readModel struct {
 	fileName        string
 	dataModel       any
-	responseChannel chan any
+	responseChannel chan [][]string
 }
 
 func NewReadFileEvent(fileName string, dataModel any) ReadEvent {
@@ -19,9 +19,9 @@ func NewReadFileEvent(fileName string, dataModel any) ReadEvent {
 
 }
 
-func (e *readModel) ResponseChannel() chan any {
+func (e *readModel) ResponseChannel() chan [][]string {
 	if e.responseChannel == nil {
-		e.responseChannel = make(chan any, 1)
+		e.responseChannel = make(chan [][]string, 1)
 	}
 	return e.responseChannel
 }
