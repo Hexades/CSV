@@ -1,16 +1,27 @@
 package csv
 
 import (
+	"encoding/csv"
+	"fmt"
 	"log"
+	"os"
 )
 
-type Executable = func(data *Model, repo *Parser) Response
-
-var BasicOpenFunc = func(data *Model, repo *Parser) *Response {
-	log.Println("Received open: ", data)
-
-	return NewResponse(data, nil)
-}
-var ReadFirstFunc = func(data *Model, repo *Parser) *Response {
-	return NewResponse(data, nil)
+var ReadAll = func(fileName string, model any) []any {
+	file, err := os.Open(fileName)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	data, err := csv.NewReader(file).ReadAll()
+	log.Println(data)
+	if err != nil {
+		for _, row := range data {
+			for _, col := range row {
+				fmt.Printf("%s,", col)
+			}
+			fmt.Println()
+		}
+	}
+	return []any{}
 }

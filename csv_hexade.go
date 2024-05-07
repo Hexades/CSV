@@ -13,10 +13,23 @@ func NewCSVParser() {
 	log.Println("Added parser listener")
 }
 
-func (r *Parser) OnEvent(parserChannel <-chan Event) {
+func (p *Parser) OnEvent(parserChannel <-chan Event) {
 
 	for evt := range parserChannel {
-		log.Println("Execute event", evt)
-		//evt.Execute(r)
+		switch evt.(type) {
+		case ReadEvent:
+			{
+				evt := evt.(ReadEvent)
+				log.Println(evt)
+				models := ReadAll(evt.FileName(), evt.DataModel())
+				evt.ResponseChannel() <- models
+			}
+			//case ReadCSVEvent:
+			//	evt := evt.(ReadCSVEvent)
+			//	log.Println(evt)
+			//	evt.Channel() <- ReadAll(evt.Reader(), nil)
+			//}
+
+		}
 	}
 }
